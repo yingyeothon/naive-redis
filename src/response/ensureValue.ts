@@ -1,4 +1,4 @@
-export const ensureGet = (result: string[], index: number) => {
+function ensureGet(result: string[], index: number) {
   if (!result || !result[index]) {
     throw new Error(`Error: empty response`);
   }
@@ -6,13 +6,13 @@ export const ensureGet = (result: string[], index: number) => {
     throw new Error(`Error: ${result[0]}`);
   }
   return result[index];
-};
+}
 
-export const ensureValue = (
+export default function ensureValue(
   result: string[],
   index: number,
   expected: RegExp
-) => {
+) {
   const value = ensureGet(result, index);
   if (expected instanceof RegExp) {
     const match = value.match(expected);
@@ -22,4 +22,4 @@ export const ensureValue = (
     return match[1];
   }
   return value;
-};
+}

@@ -1,11 +1,10 @@
 import { RedisConnection } from "./connection";
-import { ensureValue } from "./utils";
+import singleCount, { match } from "./response/singleCount";
 
 export default async function del(conn: RedisConnection, ...keys: string[]) {
   const result = await conn.send(
     [`DEL ${keys.map(e => `"${e}"`).join(" ")}`],
-    m => m.capture(`\r\n`)
+    match
   );
-  const count = ensureValue(result, 0, /:([0-9]+)/);
-  return +count;
+  return singleCount(result);
 }

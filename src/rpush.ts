@@ -1,13 +1,11 @@
 import { RedisConnection } from "./connection";
-import { ensureValue } from "./utils";
+import singleCount, { match } from "./response/singleCount";
 
 export default async function rpush(
   conn: RedisConnection,
   key: string,
   ...values: string[]
 ) {
-  const result = await conn.send([`RPUSH "${key}" ${values.join(" ")}`], m =>
-    m.capture(`\r\n`)
-  );
-  return +ensureValue(result, 0, /:([0-9]+)/);
+  const result = await conn.send([`RPUSH "${key}" ${values.join(" ")}`], match);
+  return singleCount(result);
 }

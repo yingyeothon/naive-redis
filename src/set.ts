@@ -1,5 +1,5 @@
 import { RedisConnection } from "./connection";
-import { ensureValue } from "./utils";
+import ensureValue from "./response/ensureValue";
 
 interface ISetOptions {
   expirationMillis?: number;

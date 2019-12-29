@@ -5,7 +5,7 @@ export default function lrange(
   connection: IRedisConnection,
   key: string,
   start: number,
-  end: number
+  end: number = -1
 ) {
   return multipleGet(connection, [`LRANGE "${key}" ${start} ${end}`]);
 }

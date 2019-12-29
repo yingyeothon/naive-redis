@@ -11,14 +11,18 @@ export default function multipleGet(
     commands,
     match: m => {
       m.capture(`\r\n`);
-      const count = m.value(0);
-      if (!count || count === "$-1" || count.startsWith("-")) {
+      const first = m.value(0);
+      if (!first || first === "*0" || first.startsWith("-")) {
         return m;
       }
-      return m.loop(0, () => m.capture(`\r\n`).capture(`\r\n`));
+      const count = +first.slice(1);
+      for (let index = 0; index < count; ++index) {
+        m.capture(`\r\n`).capture(`\r\n`);
+      }
+      return m;
     },
     transform: result => {
-      const length = +ensureValue(result, 0, /\$(-?[0-9]+)/);
+      const length = +ensureValue(result, 0, /\*([0-9]+)/);
       const values = result.filter((_, i) => i !== 0 && i % 2 === 0);
       if (length !== values.length) {
         throw new Error(`Error: mismatch length`);

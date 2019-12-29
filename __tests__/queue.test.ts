@@ -2,6 +2,8 @@ import connect from "../src/connection";
 import lindex from "../src/lindex";
 import llen from "../src/llen";
 import lpop from "../src/lpop";
+import lrange from "../src/lrange";
+import ltrim from "../src/ltrim";
 import rpush from "../src/rpush";
 
 test(`simple-push-pop`, async () => {
@@ -36,6 +38,21 @@ test(`simple-push-pop`, async () => {
   expect(await llen(conn, testKey)).toBe(0);
   expect(await lindex(conn, testKey, 0)).toBeNull();
   expect(await lpop(conn, testKey)).toBeNull();
+
+  conn.socket.disconnect();
+});
+
+test(`flush-queue`, async () => {
+  const conn = await connect({
+    host: "localhost"
+  });
+
+  const testKey = `naive-redis-queue-flush`;
+  const testValue = [`a`, `b`, `c`, `d`, `e`];
+  expect(await rpush(conn, testKey, ...testValue)).toBe(5);
+  expect(await llen(conn, testKey)).toBe(5);
+  expect(await lrange(conn, testKey, 0, -1)).toEqual(testValue);
+  expect(await ltrim(conn, testKey, testValue.length)).toBeTruthy();
 
   conn.socket.disconnect();
 });

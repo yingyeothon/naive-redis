@@ -1,5 +1,5 @@
 import NaiveSocket from "@yingyeothon/naive-socket";
-import ok from "./exchange/ok";
+import auth from "./auth";
 
 interface IConnectionInfo {
   host: string;
@@ -11,6 +11,7 @@ interface IConnectionInfo {
 export interface IRedisConnection {
   socket: NaiveSocket;
   timeoutMillis: number;
+  authenticated?: Promise<boolean>;
 }
 
 export default function connect({
@@ -18,7 +19,7 @@ export default function connect({
   port = 6379,
   password,
   timeoutMillis = 1000
-}: IConnectionInfo): Promise<IRedisConnection> {
+}: IConnectionInfo): IRedisConnection {
   const socket = new NaiveSocket({
     host,
     port
@@ -27,12 +28,8 @@ export default function connect({
     socket,
     timeoutMillis
   };
-  return password
-    ? ok(connection, [`AUTH ${password}`]).then(success => {
-        if (!success) {
-          throw new Error(`Invalid password`);
-        }
-        return connection;
-      })
-    : Promise.resolve(connection);
+  if (password) {
+    connection.authenticated = auth(connection, password);
+  }
+  return connection;
 }

@@ -1,6 +1,6 @@
 import { IRedisConnection } from "../connection";
+import send from "../send";
 import ensureValue from "./ensureValue";
-import send from "./send";
 
 export default function singleCount(
   connection: IRedisConnection,

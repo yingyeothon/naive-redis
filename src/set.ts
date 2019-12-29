@@ -1,6 +1,6 @@
 import { IRedisConnection } from "./connection";
 import ensureValue from "./exchange/ensureValue";
-import send from "./exchange/send";
+import send from "./send";
 
 interface ISetOptions {
   expirationMillis?: number;

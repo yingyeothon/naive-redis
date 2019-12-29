@@ -1,58 +1,45 @@
-import connect from "../src/connection";
 import del from "../src/del";
 import get from "../src/get";
 import set from "../src/set";
+import fixture from "./fixture";
 
-test("simple-get-set-del", async () => {
-  const conn = await connect({
-    host: "localhost"
-  });
+fixture("simple-get-set-del", async connection => {
   const testKey = `naive-redis-get-set-del-test`;
   const testValue = JSON.stringify({ this: `is`, something: 19391 });
-  expect(await del(conn, testKey)).toBe(0);
-  expect(await get(conn, testKey)).toBeNull();
+  expect(await del(connection, testKey)).toBe(0);
+  expect(await get(connection, testKey)).toBeNull();
 
-  await set(conn, testKey, testValue);
-  expect(await get(conn, testKey)).toEqual(testValue);
-  expect(await del(conn, testKey)).toBe(1);
-  expect(await get(conn, testKey)).toBeNull();
-
-  conn.socket.disconnect();
+  await set(connection, testKey, testValue);
+  expect(await get(connection, testKey)).toEqual(testValue);
+  expect(await del(connection, testKey)).toBe(1);
+  expect(await get(connection, testKey)).toBeNull();
 });
 
-test("simple-get-set-del-many", async () => {
-  const conn = await connect({
-    host: "localhost"
-  });
+fixture("simple-get-set-del-many", async connectino => {
   for (let index = 0; index < 100; ++index) {
     const testKey = `naive-redis-get-set-del-test-${index}`;
     const testValue = JSON.stringify({ this: `is`, something: 19391, index });
-    expect(await del(conn, testKey)).toBe(0);
-    expect(await get(conn, testKey)).toBeNull();
+    expect(await del(connectino, testKey)).toBe(0);
+    expect(await get(connectino, testKey)).toBeNull();
 
-    await set(conn, testKey, testValue);
-    expect(await get(conn, testKey)).toEqual(testValue);
-    expect(await del(conn, testKey)).toBe(1);
-    expect(await get(conn, testKey)).toBeNull();
+    await set(connectino, testKey, testValue);
+    expect(await get(connectino, testKey)).toEqual(testValue);
+    expect(await del(connectino, testKey)).toBe(1);
+    expect(await get(connectino, testKey)).toBeNull();
   }
-  conn.socket.disconnect();
 });
 
-test("del-many", async () => {
-  const conn = await connect({
-    host: "localhost"
-  });
+fixture("del-many", async connection => {
   const count = 100;
   const keys: string[] = [];
   for (let index = 0; index < count; ++index) {
     const testKey = `naive-redis-get-set-del-test-${index}`;
     await set(
-      conn,
+      connection,
       testKey,
       JSON.stringify({ this: `is`, something: 19391, index })
     );
     keys.push(testKey);
   }
-  expect(await del(conn, ...keys)).toBe(count);
-  conn.socket.disconnect();
+  expect(await del(connection, ...keys)).toBe(count);
 });

@@ -8,6 +8,7 @@ interface IConnectionInfo {
 export interface IRedisConnection {
     socket: NaiveSocket;
     timeoutMillis: number;
+    authenticated?: Promise<boolean>;
 }
-export default function connect({ host, port, password, timeoutMillis }: IConnectionInfo): Promise<IRedisConnection>;
+export default function connect({ host, port, password, timeoutMillis }: IConnectionInfo): IRedisConnection;
 export {};

@@ -1,6 +1,6 @@
 {
   "name": "@yingyeothon/naive-redis",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A naive Redis client to use very thin layer with TCP socket",
   "repository": "https://github.com/yingyeothon/naive-redis",
   "author": "jaeyoung.choi <lactrious@gmail.com>",

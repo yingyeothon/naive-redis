@@ -1,10 +1,6 @@
-import { RedisConnection } from "./connection";
-import singleCount, { match } from "./response/singleCount";
+import { IRedisConnection } from "./connection";
+import singleCount from "./exchange/singleCount";
 
-export default async function del(conn: RedisConnection, ...keys: string[]) {
-  const result = await conn.send(
-    [`DEL ${keys.map(e => `"${e}"`).join(" ")}`],
-    match
-  );
-  return singleCount(result);
+export default function del(connection: IRedisConnection, ...keys: string[]) {
+  return singleCount(connection, [`DEL ${keys.map(e => `"${e}"`).join(" ")}`]);
 }

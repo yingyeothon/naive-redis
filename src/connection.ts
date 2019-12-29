@@ -1,6 +1,5 @@
 import NaiveSocket from "@yingyeothon/naive-socket";
-import Matcher, { withMatcher } from "@yingyeothon/naive-socket/lib/match";
-import ok, { match } from "./response/ok";
+import ok from "./exchange/ok";
 
 interface IConnectionInfo {
   host: string;
@@ -9,37 +8,31 @@ interface IConnectionInfo {
   timeoutMillis?: number;
 }
 
-type Unpromisify<T> = T extends Promise<infer U> ? U : T;
-export type RedisConnection = Unpromisify<ReturnType<typeof connect>>;
+export interface IRedisConnection {
+  socket: NaiveSocket;
+  timeoutMillis: number;
+}
 
-export default async function connect({
+export default function connect({
   host,
   port = 6379,
   password,
   timeoutMillis = 1000
-}: IConnectionInfo) {
+}: IConnectionInfo): Promise<IRedisConnection> {
   const socket = new NaiveSocket({
     host,
     port
   });
-  const newline = `\r\n`;
-  const send = (
-    commands: string[],
-    m: (m: Matcher) => Matcher
-  ): Promise<string[]> =>
-    socket
-      .send({
-        message: commands.join(newline) + newline,
-        fulfill: withMatcher(m),
-        timeoutMillis
+  const connection: IRedisConnection = {
+    socket,
+    timeoutMillis
+  };
+  return password
+    ? ok(connection, [`AUTH ${password}`]).then(success => {
+        if (!success) {
+          throw new Error(`Invalid password`);
+        }
+        return connection;
       })
-      .then(response => m(new Matcher(response)).values());
-
-  if (password) {
-    const result = await send([`AUTH ${password}`], match);
-    if (!ok(result)) {
-      throw new Error(`Password error: ${result}`);
-    }
-  }
-  return { send, disconnect: socket.disconnect };
+    : Promise.resolve(connection);
 }

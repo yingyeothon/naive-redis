@@ -1,11 +1,10 @@
-import { RedisConnection } from "./connection";
-import singleCount, { match } from "./response/singleCount";
+import { IRedisConnection } from "./connection";
+import singleCount from "./exchange/singleCount";
 
-export default async function rpush(
-  conn: RedisConnection,
+export default function rpush(
+  connection: IRedisConnection,
   key: string,
   ...values: string[]
 ) {
-  const result = await conn.send([`RPUSH "${key}" ${values.join(" ")}`], match);
-  return singleCount(result);
+  return singleCount(connection, [`RPUSH "${key}" ${values.join(" ")}`]);
 }

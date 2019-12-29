@@ -1,5 +1,6 @@
-import { RedisConnection } from "./connection";
-import ensureValue from "./response/ensureValue";
+import { IRedisConnection } from "./connection";
+import ensureValue from "./exchange/ensureValue";
+import send from "./exchange/send";
 
 interface ISetOptions {
   expirationMillis?: number;
@@ -7,8 +8,8 @@ interface ISetOptions {
   stringify?: boolean;
 }
 
-export default async function set(
-  conn: RedisConnection,
+export default function set(
+  connection: IRedisConnection,
   key: string,
   value: string,
   { expirationMillis, onlySet, stringify = true }: ISetOptions = {}
@@ -25,8 +26,13 @@ export default async function set(
   if (onlySet !== undefined) {
     command.push(onlySet.toUpperCase());
   }
-  const result = await conn.send([command.join(` `)], m => m.capture(`\r\n`));
-  return onlySet === undefined
-    ? ensureValue(result, 0, /\+(OK)/) === "OK"
-    : ensureValue(result, 0, /:([0|1])/) === "1";
+  return send({
+    connection,
+    commands: [command.join(` `)],
+    match: m => m.capture(`\r\n`),
+    transform: result =>
+      onlySet === undefined
+        ? ensureValue(result, 0, /\+(OK)/) === "OK"
+        : ensureValue(result, 0, /:([0|1])/) === "1"
+  });
 }

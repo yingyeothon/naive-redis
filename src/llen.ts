@@ -1,7 +1,6 @@
-import { RedisConnection } from "./connection";
-import singleCount, { match } from "./response/singleCount";
+import { IRedisConnection } from "./connection";
+import singleCount from "./exchange/singleCount";
 
-export default async function llen(conn: RedisConnection, key: string) {
-  const result = await conn.send([`llen "${key}"`], match);
-  return singleCount(result);
+export default function llen(connection: IRedisConnection, key: string) {
+  return singleCount(connection, [`llen "${key}"`]);
 }

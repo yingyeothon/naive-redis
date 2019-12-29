@@ -1,11 +1,10 @@
-import { RedisConnection } from "./connection";
-import singleGet, { match } from "./response/singleGet";
+import { IRedisConnection } from "./connection";
+import singleGet from "./exchange/singleGet";
 
-export default async function lindex(
-  conn: RedisConnection,
+export default function lindex(
+  connection: IRedisConnection,
   key: string,
   pos: number
 ) {
-  const result = await conn.send([`LINDEX "${key}" ${pos}`], match);
-  return singleGet(result);
+  return singleGet(connection, [`LINDEX "${key}" ${pos}`]);
 }

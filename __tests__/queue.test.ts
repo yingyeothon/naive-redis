@@ -37,5 +37,5 @@ test(`simple-push-pop`, async () => {
   expect(await lindex(conn, testKey, 0)).toBeNull();
   expect(await lpop(conn, testKey)).toBeNull();
 
-  conn.disconnect();
+  conn.socket.disconnect();
 });

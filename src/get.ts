@@ -1,7 +1,6 @@
-import { RedisConnection } from "./connection";
-import singleGet, { match } from "./response/singleGet";
+import { IRedisConnection } from "./connection";
+import singleGet from "./exchange/singleGet";
 
-export default async function get(conn: RedisConnection, key: string) {
-  const result = await conn.send([`GET "${key}"`], match);
-  return singleGet(result);
+export default function get(connection: IRedisConnection, key: string) {
+  return singleGet(connection, [`GET "${key}"`]);
 }

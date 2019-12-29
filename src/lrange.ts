@@ -1,12 +1,11 @@
-import { RedisConnection } from "./connection";
-import multipleGet, { match } from "./response/multipleGet";
+import { IRedisConnection } from "./connection";
+import multipleGet from "./exchange/multipleGet";
 
-export default async function lrange(
-  conn: RedisConnection,
+export default function lrange(
+  connection: IRedisConnection,
   key: string,
   start: number,
   end: number
 ) {
-  const result = await conn.send([`LRANGE "${key}" ${start} ${end}`], match);
-  return multipleGet(result);
+  return multipleGet(connection, [`LRANGE "${key}" ${start} ${end}`]);
 }

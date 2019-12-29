@@ -17,7 +17,7 @@ test("simple-get-set-del", async () => {
   expect(await del(conn, testKey)).toBe(1);
   expect(await get(conn, testKey)).toBeNull();
 
-  conn.disconnect();
+  conn.socket.disconnect();
 });
 
 test("simple-get-set-del-many", async () => {
@@ -35,7 +35,7 @@ test("simple-get-set-del-many", async () => {
     expect(await del(conn, testKey)).toBe(1);
     expect(await get(conn, testKey)).toBeNull();
   }
-  conn.disconnect();
+  conn.socket.disconnect();
 });
 
 test("del-many", async () => {
@@ -54,5 +54,5 @@ test("del-many", async () => {
     keys.push(testKey);
   }
   expect(await del(conn, ...keys)).toBe(count);
-  conn.disconnect();
+  conn.socket.disconnect();
 });

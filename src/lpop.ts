@@ -1,7 +1,6 @@
-import { RedisConnection } from "./connection";
-import singleGet, { match } from "./response/singleGet";
+import { IRedisConnection } from "./connection";
+import singleGet from "./exchange/singleGet";
 
-export default async function lpop(conn: RedisConnection, key: string) {
-  const result = await conn.send([`LPOP "${key}"`], match);
-  return singleGet(result);
+export default function lpop(connection: IRedisConnection, key: string) {
+  return singleGet(connection, [`LPOP "${key}"`]);
 }

@@ -1,1 +1,0 @@
-{"version":3,"file":"singleCount.js","sourceRoot":"","sources":["../../src/response/singleCount.ts"],"names":[],"mappings":";;;;;AACA,gEAAwC;AAE3B,QAAA,KAAK,GAAG,CAAC,CAAU,EAAE,EAAE,CAAC,CAAC,CAAC,OAAO,CAAC,MAAM,CAAC,CAAC;AAEvD,SAAwB,WAAW,CAAC,MAAgB;IAClD,MAAM,KAAK,GAAG,qBAAW,CAAC,MAAM,EAAE,CAAC,EAAE,WAAW,CAAC,CAAC;IAClD,OAAO,CAAC,KAAK,CAAC;AAChB,CAAC;AAHD,8BAGC"}

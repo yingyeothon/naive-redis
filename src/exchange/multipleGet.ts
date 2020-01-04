@@ -11,7 +11,7 @@ export default function multipleGet(
     commands,
     match: m => {
       m.capture(`\r\n`);
-      const first = m.value(0);
+      const first = m.values()[0];
       if (!first || first === "*0" || first.startsWith("-")) {
         return m;
       }

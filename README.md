@@ -34,11 +34,9 @@ await set(
   }),
   {
     expirationMillis: 5000,
-    onlySet: `xx`,
-
-    // This means this library would use `JSON.stringify` to wrap your value with `"` character with escaping.
-    // If a value has a pretty good quotations it would not be needed.
-    stringify: true
+    // "nx" means set only if absent.
+    // "xx" means set only if present.
+    onlySet: `xx`
   }
 );
 ```

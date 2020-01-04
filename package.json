@@ -33,6 +33,6 @@
     "typescript": "^3.7.4"
   },
   "dependencies": {
-    "@yingyeothon/naive-socket": "^0.2.1"
+    "@yingyeothon/naive-socket": "^0.2.2"
   }
 }

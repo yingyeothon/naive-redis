@@ -368,10 +368,10 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@yingyeothon/naive-socket@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@yingyeothon/naive-socket/-/naive-socket-0.2.1.tgz#81c168fb308a98bc5247dacae37b6b068eb98365"
-  integrity sha512-qMhXWxuRzTzmLNmndBjkU5nUEZ7gCsy07Phc4zleWJYx9OcE4SXWzOh+azWmMRwTlcoGltqJoFjczBb783DifQ==
+"@yingyeothon/naive-socket@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@yingyeothon/naive-socket/-/naive-socket-0.2.2.tgz#6463518c00a3099174aec0f49d1872fe243e4a89"
+  integrity sha512-+Er/XLAjU7Mfaa9bVvzEgXVnV0oRMWHMayGhdoGqvZxEVir2yQVtwCsKQfpzHouRJfm7L8l6GLRlbn/52ZBKBg==
 
 abab@^2.0.0:
   version "2.0.3"

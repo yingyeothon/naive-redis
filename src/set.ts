@@ -5,20 +5,15 @@ import send from "./send";
 interface ISetOptions {
   expirationMillis?: number;
   onlySet?: "nx" | "xx";
-  stringify?: boolean;
 }
 
 export default function set(
   connection: IRedisConnection,
   key: string,
   value: string,
-  { expirationMillis, onlySet, stringify = true }: ISetOptions = {}
+  { expirationMillis, onlySet }: ISetOptions = {}
 ) {
-  const command: string[] = [
-    `SET`,
-    `"${key}"`,
-    stringify ? JSON.stringify(value) : `"${value}"`
-  ];
+  const command: string[] = [`SET`, `"${key}"`, JSON.stringify(value)];
   if (expirationMillis !== undefined) {
     command.push(`PX`);
     command.push(expirationMillis.toString());
@@ -30,9 +25,6 @@ export default function set(
     connection,
     commands: [command.join(` `)],
     match: m => m.capture(`\r\n`),
-    transform: result =>
-      onlySet === undefined
-        ? ensureValue(result, 0, /\+(OK)/) === "OK"
-        : ensureValue(result, 0, /:([0|1])/) === "1"
+    transform: result => ensureValue(result, 0, /(\+OK|\$-1)/) === "+OK"
   });
 }

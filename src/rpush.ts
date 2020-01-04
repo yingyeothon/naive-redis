@@ -6,5 +6,7 @@ export default function rpush(
   key: string,
   ...values: string[]
 ) {
-  return singleCount(connection, [`RPUSH "${key}" ${values.join(" ")}`]);
+  return singleCount(connection, [
+    `RPUSH "${key}" ${values.map(value => JSON.stringify(value)).join(" ")}`
+  ]);
 }

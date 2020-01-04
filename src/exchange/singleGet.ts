@@ -11,9 +11,8 @@ export default function singleGet(
     commands,
     match: m => {
       m.capture(`\r\n`);
-      return m.value(0) === "$-1" || m.value(0).startsWith("-")
-        ? m
-        : m.capture(`\r\n`);
+      const first = m.values()[0];
+      return first === "$-1" || first.startsWith("-") ? m : m.capture(`\r\n`);
     },
     transform: result => {
       const length = ensureValue(result, 0, /\$(-?[0-9]+)/);

@@ -6,5 +6,7 @@ export default function sadd(
   key: string,
   ...values: string[]
 ) {
-  return singleCount(connection, [`SADD "${key}" ${values.join(" ")}`]);
+  return singleCount(connection, [
+    `SADD "${key}" ${values.map(value => JSON.stringify(value)).join(" ")}`
+  ]);
 }

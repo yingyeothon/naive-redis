@@ -6,5 +6,7 @@ export default function srem(
   key: string,
   ...values: string[]
 ) {
-  return singleCount(connection, [`SREM "${key}" ${values.join(" ")}`]);
+  return singleCount(connection, [
+    `SREM "${key}" ${values.map(value => JSON.stringify(value)).join(" ")}`
+  ]);
 }

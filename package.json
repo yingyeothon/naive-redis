@@ -18,7 +18,7 @@
     "access": "public"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand --detectOpenHandles",
     "build": "tsc",
     "prepublishOnly": "yarn build"
   },

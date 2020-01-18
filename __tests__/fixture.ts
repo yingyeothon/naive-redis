@@ -15,6 +15,12 @@ export default function fixture(
     try {
       await connectionWork(connection);
     } finally {
+      // Clear all entries after test.
+      await connection.socket.send({
+        message: "FLUSHALL\r\n",
+        fulfill: "+OK\r\n".length,
+        timeoutMillis: 1000
+      });
       connection.socket.disconnect();
     }
   });

@@ -1,6 +1,6 @@
 import { IRedisConnection } from "../connection";
-import send from "../send";
 import ensureValue from "./ensureValue";
+import send from "../send";
 
 export default function singleGet(
   connection: IRedisConnection,
@@ -9,14 +9,14 @@ export default function singleGet(
   return send({
     connection,
     commands,
-    match: m => {
+    match: (m) => {
       m.capture(`\r\n`);
       const first = m.values()[0];
       return first === "$-1" || first.startsWith("-") ? m : m.capture(`\r\n`);
     },
-    transform: result => {
+    transform: (result) => {
       const length = ensureValue(result, 0, /\$(-?[0-9]+)/);
       return length === "-1" ? null : result[1];
-    }
+    },
   });
 }

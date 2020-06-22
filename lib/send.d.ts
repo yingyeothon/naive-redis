@@ -5,5 +5,6 @@ export interface ISend<T> {
     commands: string[];
     match: (m: TextMatch) => TextMatch;
     transform: (result: string[]) => T;
+    urgent?: boolean;
 }
-export default function send<T>({ connection, commands, match, transform }: ISend<T>): Promise<T>;
+export default function send<T>({ connection, commands, match, transform, urgent, }: ISend<T>): Promise<T>;

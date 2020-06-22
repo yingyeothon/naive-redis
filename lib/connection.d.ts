@@ -10,5 +10,5 @@ export interface IRedisConnection {
     timeoutMillis: number;
     authenticated?: Promise<boolean>;
 }
-export default function connect({ host, port, password, timeoutMillis }: IConnectionInfo): IRedisConnection;
+export default function connect({ host, port, password, timeoutMillis, }: IConnectionInfo): IRedisConnection;
 export {};

@@ -1,2 +1,2 @@
-import { IRedisConnection } from "./connection";
-export default function llen(connection: IRedisConnection, key: string): Promise<number>;
+import { RedisConnection } from "./connection";
+export default function redisLlen(connection: RedisConnection, key: string): Promise<number>;

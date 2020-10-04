@@ -1,7 +1,7 @@
-import { IRedisConnection } from "./connection";
-interface ISetOptions {
+import { RedisConnection } from "./connection";
+interface SetOptions {
     expirationMillis?: number;
     onlySet?: "nx" | "xx";
 }
-export default function set(connection: IRedisConnection, key: string, value: string, { expirationMillis, onlySet }?: ISetOptions): Promise<boolean>;
+export default function redisSet(connection: RedisConnection, key: string, value: string, { expirationMillis, onlySet }?: SetOptions): Promise<boolean>;
 export {};

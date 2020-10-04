@@ -1,11 +1,11 @@
-import { IRedisConnection } from "./connection";
+import { RedisConnection } from "./connection";
 import multipleGet from "./exchange/multipleGet";
 
-export default function lrange(
-  connection: IRedisConnection,
+export default function redisLrange(
+  connection: RedisConnection,
   key: string,
   start: number,
-  end: number = -1
-) {
+  end = -1
+): Promise<string[]> {
   return multipleGet(connection, [`LRANGE "${key}" ${start} ${end}`]);
 }

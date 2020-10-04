@@ -11,32 +11,32 @@ yarn add @yingyeothon/naive-redis
 ## Example
 
 ```typescript
-import connect from "@yingyeothon/naive-redis/lib/connect";
-import get from "@yingyeothon/naive-redis/lib/get";
-import set from "@yingyeothon/naive-redis/lib/set";
+import redisConnect from "@yingyeothon/naive-redis/lib/connect";
+import redisGet from "@yingyeothon/naive-redis/lib/get";
+import redisSet from "@yingyeothon/naive-redis/lib/set";
 
-const connection = connect({
+const connection = redisConnect({
   host: `my.redis.domain`,
   port: 6379,
   password: `very-secret-password`,
-  timeoutMillis: 1000
+  timeoutMillis: 1000,
 });
 
 // Get a value from Redis
-const myValue = await get(connection, `my-redis-key`);
+const myValue = await redisGet(connection, `my-redis-key`);
 
 // Set a new value into Redis with expiration and overwritten options.
-await set(
+await redisSet(
   connection,
   `my-redis-key`,
   JSON.stringify({
-    something: `very-complex`
+    something: `very-complex`,
   }),
   {
     expirationMillis: 5000,
     // "nx" means set only if absent.
     // "xx" means set only if present.
-    onlySet: `xx`
+    onlySet: `xx`,
   }
 );
 ```

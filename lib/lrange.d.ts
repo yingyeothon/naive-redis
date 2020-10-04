@@ -1,2 +1,2 @@
-import { IRedisConnection } from "./connection";
-export default function lrange(connection: IRedisConnection, key: string, start: number, end?: number): Promise<string[]>;
+import { RedisConnection } from "./connection";
+export default function redisLrange(connection: RedisConnection, key: string, start: number, end?: number): Promise<string[]>;

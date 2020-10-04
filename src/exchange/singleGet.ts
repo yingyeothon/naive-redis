@@ -1,12 +1,12 @@
-import { IRedisConnection } from "../connection";
+import { RedisConnection } from "../connection";
 import ensureValue from "./ensureValue";
-import send from "../send";
+import redisSend from "../send";
 
 export default function singleGet(
-  connection: IRedisConnection,
+  connection: RedisConnection,
   commands: string[]
-) {
-  return send({
+): Promise<string | null> {
+  return redisSend({
     connection,
     commands,
     match: (m) => {

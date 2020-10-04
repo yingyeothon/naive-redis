@@ -1,2 +1,2 @@
-import { IRedisConnection } from "./connection";
-export default function smembers(connection: IRedisConnection, key: string): Promise<string[]>;
+import { RedisConnection } from "./connection";
+export default function redisSmembers(connection: RedisConnection, key: string): Promise<string[]>;

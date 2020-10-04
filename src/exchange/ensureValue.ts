@@ -12,7 +12,7 @@ export default function ensureValue(
   result: string[],
   index: number,
   expected: RegExp
-) {
+): string {
   const value = ensureGet(result, index);
   if (expected instanceof RegExp) {
     const match = value.match(expected);

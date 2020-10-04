@@ -1,2 +1,2 @@
-import { IRedisConnection } from "./connection";
-export default function auth(connection: IRedisConnection, password: string): Promise<boolean>;
+import { RedisConnection } from "./connection";
+export default function redisAuth(connection: RedisConnection, password: string): Promise<boolean>;

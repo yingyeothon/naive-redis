@@ -1,2 +1,2 @@
-import { IRedisConnection } from "../connection";
-export default function singleCount(connection: IRedisConnection, commands: string[]): Promise<number>;
+import { RedisConnection } from "../connection";
+export default function singleCount(connection: RedisConnection, commands: string[]): Promise<number>;

@@ -1,2 +1,2 @@
-import { IRedisConnection } from "./connection";
-export default function ltrim(connection: IRedisConnection, key: string, start: number, end?: number): Promise<boolean>;
+import { RedisConnection } from "./connection";
+export default function redisLtrim(connection: RedisConnection, key: string, start: number, end?: number): Promise<boolean>;

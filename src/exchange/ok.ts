@@ -1,13 +1,13 @@
-import { IRedisConnection } from "../connection";
+import { RedisConnection } from "../connection";
 import ensureValue from "./ensureValue";
-import send from "../send";
+import redisSend from "../send";
 
 export default function ok(
-  connection: IRedisConnection,
+  connection: RedisConnection,
   commands: string[],
   { urgent }: { urgent?: boolean } = {}
-) {
-  return send({
+): Promise<boolean> {
+  return redisSend({
     connection,
     commands,
     match: (m) => m.capture(`\r\n`),

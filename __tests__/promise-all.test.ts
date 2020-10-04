@@ -1,9 +1,9 @@
 import del from "../src/del";
+import fixture from "./fixture";
 import get from "../src/get";
 import set from "../src/set";
-import fixture from "./fixture";
 
-fixture("simple-promise-all", async connection => {
+fixture("simple-promise-all", async (connection) => {
   const testKeyPrefix = `naive-redis-simple-promise-all-`;
   const testCount = 100;
 
@@ -17,7 +17,7 @@ fixture("simple-promise-all", async connection => {
   const getPromises: Array<Promise<string>> = [];
   for (let index = 0; index < testCount; ++index) {
     getPromises.push(
-      get(connection, testKeyPrefix + index).then(result => result!)
+      get(connection, testKeyPrefix + index).then((result) => result!)
     );
   }
   const allGet = await Promise.all(getPromises);
@@ -30,5 +30,5 @@ fixture("simple-promise-all", async connection => {
     delPromises.push(del(connection, testKeyPrefix + index));
   }
   const allDel = await Promise.all(delPromises);
-  expect(allDel.filter(each => each === 1).every(Boolean)).toBeTruthy();
+  expect(allDel.filter((each) => each === 1).every(Boolean)).toBeTruthy();
 });

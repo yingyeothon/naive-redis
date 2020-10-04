@@ -1,2 +1,2 @@
-import { IRedisConnection } from "./connection";
-export default function lpop(connection: IRedisConnection, key: string): Promise<string | null>;
+import { RedisConnection } from "./connection";
+export default function redisLpop(connection: RedisConnection, key: string): Promise<string | null>;

@@ -1,9 +1,9 @@
 import del from "../src/del";
+import fixture from "./fixture";
 import get from "../src/get";
 import set from "../src/set";
-import fixture from "./fixture";
 
-fixture("simple-get-set-del", async connection => {
+fixture("simple-get-set-del", async (connection) => {
   const testKey = `naive-redis-get-set-del-test`;
   const testValue = JSON.stringify({ this: `is`, something: 19391 });
   expect(await del(connection, testKey)).toBe(0);
@@ -15,7 +15,7 @@ fixture("simple-get-set-del", async connection => {
   expect(await get(connection, testKey)).toBeNull();
 });
 
-fixture("simple-get-set-del-many", async connectino => {
+fixture("simple-get-set-del-many", async (connectino) => {
   for (let index = 0; index < 100; ++index) {
     const testKey = `naive-redis-get-set-del-test-${index}`;
     const testValue = JSON.stringify({ this: `is`, something: 19391, index });
@@ -29,7 +29,7 @@ fixture("simple-get-set-del-many", async connectino => {
   }
 });
 
-fixture("del-many", async connection => {
+fixture("del-many", async (connection) => {
   const count = 100;
   const keys: string[] = [];
   for (let index = 0; index < count; ++index) {

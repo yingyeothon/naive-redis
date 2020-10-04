@@ -1,36 +1,36 @@
 import NaiveSocket, { ConnectionState } from "@yingyeothon/naive-socket";
 
-import auth from "./auth";
+import redisAuth from "./auth";
 
-interface IConnectionInfo {
+interface ConnectionInfo {
   host: string;
   port?: number;
   password?: string;
   timeoutMillis?: number;
 }
 
-export interface IRedisConnection {
+export interface RedisConnection {
   socket: NaiveSocket;
   timeoutMillis: number;
   authenticated?: Promise<boolean>;
 }
 
-export default function connect({
+export default function redisConnect({
   host,
   port = 6379,
   password,
   timeoutMillis = 1000,
-}: IConnectionInfo): IRedisConnection {
+}: ConnectionInfo): RedisConnection {
   const socket = new NaiveSocket({
     host,
     port,
     onConnectionStateChanged: ({ state }) => {
       if (password && state === ConnectionState.Connected) {
-        connection.authenticated = auth(connection, password);
+        connection.authenticated = redisAuth(connection, password);
       }
     },
   });
-  const connection: IRedisConnection = {
+  const connection: RedisConnection = {
     socket,
     timeoutMillis,
   };

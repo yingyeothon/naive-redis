@@ -1,11 +1,11 @@
-import { IRedisConnection } from "./connection";
+import { RedisConnection } from "./connection";
 import ok from "./exchange/ok";
 
-export default function ltrim(
-  connection: IRedisConnection,
+export default function redisLtrim(
+  connection: RedisConnection,
   key: string,
   start: number,
-  end: number = -1
-) {
+  end = -1
+): Promise<boolean> {
   return ok(connection, [`LTRIM "${key}" ${start} ${end}`]);
 }

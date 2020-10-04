@@ -1,24 +1,24 @@
 import TextMatch, { withMatch } from "@yingyeothon/naive-socket/lib/match";
 
-import { IRedisConnection } from "./connection";
+import { RedisConnection } from "./connection";
 
 const newline = `\r\n`;
 
-export interface ISend<T> {
-  connection: IRedisConnection;
+export interface Send<T> {
+  connection: RedisConnection;
   commands: string[];
   match: (m: TextMatch) => TextMatch;
   transform: (result: string[]) => T;
   urgent?: boolean;
 }
 
-export default function send<T>({
+export default function redisSend<T>({
   connection,
   commands,
   match,
   transform,
   urgent,
-}: ISend<T>): Promise<T> {
+}: Send<T>): Promise<T> {
   async function doSend() {
     const response = await connection.socket.send({
       message: commands.join(newline) + newline,

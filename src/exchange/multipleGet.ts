@@ -1,15 +1,15 @@
-import { IRedisConnection } from "../connection";
-import send from "../send";
+import { RedisConnection } from "../connection";
 import ensureValue from "./ensureValue";
+import redisSend from "../send";
 
 export default function multipleGet(
-  connection: IRedisConnection,
+  connection: RedisConnection,
   commands: string[]
-) {
-  return send({
+): Promise<string[]> {
+  return redisSend({
     connection,
     commands,
-    match: m => {
+    match: (m) => {
       m.capture(`\r\n`);
       const first = m.values()[0];
       if (!first || first === "*0" || first.startsWith("-")) {
@@ -21,13 +21,13 @@ export default function multipleGet(
       }
       return m;
     },
-    transform: result => {
+    transform: (result) => {
       const length = +ensureValue(result, 0, /\*([0-9]+)/);
       const values = result.filter((_, i) => i !== 0 && i % 2 === 0);
       if (length !== values.length) {
         throw new Error(`Error: mismatch length`);
       }
       return values;
-    }
+    },
   });
 }

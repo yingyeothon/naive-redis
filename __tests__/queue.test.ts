@@ -1,12 +1,12 @@
+import fixture from "./fixture";
 import lindex from "../src/lindex";
 import llen from "../src/llen";
 import lpop from "../src/lpop";
 import lrange from "../src/lrange";
 import ltrim from "../src/ltrim";
 import rpush from "../src/rpush";
-import fixture from "./fixture";
 
-fixture(`simple-push-pop`, async connection => {
+fixture(`simple-push-pop`, async (connection) => {
   const testKey = `naive-redis-queue`;
   const testValue = (index: number) =>
     JSON.stringify({ hello: `world`, index });
@@ -34,7 +34,7 @@ fixture(`simple-push-pop`, async connection => {
   expect(await lpop(connection, testKey)).toBeNull();
 });
 
-fixture(`flush-queue`, async connection => {
+fixture(`flush-queue`, async (connection) => {
   const testKey = `naive-redis-queue-flush`;
   const testValue = [`a`, `b`, `c`, `d`, `e`];
   expect(await rpush(connection, testKey, ...testValue)).toBe(5);

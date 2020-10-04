@@ -1,4 +1,4 @@
-import connect, { IRedisConnection } from "../src/connection";
+import connect, { RedisConnection } from "../src/connection";
 
 import { GenericContainer } from "testcontainers";
 
@@ -39,8 +39,8 @@ afterAll(async () => {
 
 export default function fixture(
   testName: string,
-  connectionWork: (connection: IRedisConnection) => Promise<void>
-) {
+  connectionWork: (connection: RedisConnection) => Promise<void>
+): void {
   test(testName + "-on-simple-container", async () => {
     const {
       simple: { host, port },

@@ -1,2 +1,2 @@
-import { IRedisConnection } from "./connection";
-export default function srem(connection: IRedisConnection, key: string, ...values: string[]): Promise<number>;
+import { RedisConnection } from "./connection";
+export default function redisSrem(connection: RedisConnection, key: string, ...values: string[]): Promise<number>;

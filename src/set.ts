@@ -1,18 +1,18 @@
-import { IRedisConnection } from "./connection";
+import { RedisConnection } from "./connection";
 import ensureValue from "./exchange/ensureValue";
-import send from "./send";
+import redisSend from "./send";
 
-interface ISetOptions {
+interface SetOptions {
   expirationMillis?: number;
   onlySet?: "nx" | "xx";
 }
 
-export default function set(
-  connection: IRedisConnection,
+export default function redisSet(
+  connection: RedisConnection,
   key: string,
   value: string,
-  { expirationMillis, onlySet }: ISetOptions = {}
-) {
+  { expirationMillis, onlySet }: SetOptions = {}
+): Promise<boolean> {
   const command: string[] = [`SET`, key, value];
   if (expirationMillis !== undefined) {
     command.push(`PX`);
@@ -21,7 +21,7 @@ export default function set(
   if (onlySet !== undefined) {
     command.push(onlySet.toUpperCase());
   }
-  return send({
+  return redisSend({
     connection,
     commands: [serializeCommand(command)],
     match: (m) => m.capture(`\r\n`),
@@ -44,7 +44,7 @@ function serializeCommand(command: string[]): string {
   const lines: string[] = [];
   lines.push(`*${command.length}`);
   for (const part of command) {
-    let partLength = part.length;
+    const partLength = part.length;
     lines.push(`$${partLength}`);
     lines.push(part);
   }

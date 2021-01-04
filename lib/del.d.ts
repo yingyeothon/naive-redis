@@ -1,2 +1,2 @@
 import { RedisConnection } from "./connection";
-export default function del(connection: RedisConnection, ...keys: string[]): Promise<number>;
+export default function redisDel(connection: RedisConnection, ...keys: string[]): Promise<number>;

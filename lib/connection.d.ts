@@ -1,5 +1,5 @@
 import NaiveSocket from "@yingyeothon/naive-socket";
-interface ConnectionInfo {
+export interface RedisConfig {
     host: string;
     port?: number;
     password?: string;
@@ -10,5 +10,4 @@ export interface RedisConnection {
     timeoutMillis: number;
     authenticated?: Promise<boolean>;
 }
-export default function redisConnect({ host, port, password, timeoutMillis, }: ConnectionInfo): RedisConnection;
-export {};
+export default function redisConnect({ host, port, password, timeoutMillis, }: RedisConfig): RedisConnection;

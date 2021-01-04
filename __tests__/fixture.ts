@@ -18,11 +18,11 @@ async function prepareRedis() {
 
   return {
     simple: {
-      host: simpleContainer.getContainerIpAddress(),
+      host: simpleContainer.getHost(),
       port: simpleContainer.getMappedPort(6379),
     },
     auth: {
-      host: authContainer.getContainerIpAddress(),
+      host: authContainer.getHost(),
       port: authContainer.getMappedPort(6379),
       password,
     },
@@ -33,8 +33,8 @@ async function prepareRedis() {
 const redis = prepareRedis();
 
 afterAll(async () => {
-  const { stopAllContainers: stopContainer } = await redis;
-  await stopContainer();
+  const { stopAllContainers } = await redis;
+  await stopAllContainers();
 });
 
 export function testbed(

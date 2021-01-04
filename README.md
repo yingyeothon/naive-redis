@@ -57,6 +57,38 @@ await redisSet(
 - smembers
 - srem
 
+## Simple supports
+
+It supports some simple patterns easy to use.
+
+```typescript
+import RedisSimple from "@yingyeothon/naive-redis/lib/simple";
+import lzutf8 from "lzutf8";
+
+function compressionDecode<T>(maybe: string): T {
+  return JSON.parse(
+    lzutf8.decompress(maybe, {
+      inputEncoding: "Base64",
+      outputEncoding: "String",
+    })
+  );
+}
+
+function compressionEncode<T>(input: T | null): string {
+  return lzutf8.compress(JSON.stringify(input), {
+    inputEncoding: "String",
+    outputEncoding: "Base64",
+  });
+}
+
+export const { cache, get, set, del } = new RedisSimple({
+  config: { host, password, timeoutMillis },
+  decode: compressionDecode,
+  encode: compressionEncode,
+  keyPrefix: redisKeyPrefix,
+});
+```
+
 ## License
 
 MIT

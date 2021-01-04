@@ -2,7 +2,7 @@ import NaiveSocket, { ConnectionState } from "@yingyeothon/naive-socket";
 
 import redisAuth from "./auth";
 
-interface ConnectionInfo {
+export interface RedisConfig {
   host: string;
   port?: number;
   password?: string;
@@ -20,7 +20,7 @@ export default function redisConnect({
   port = 6379,
   password,
   timeoutMillis = 1000,
-}: ConnectionInfo): RedisConnection {
+}: RedisConfig): RedisConnection {
   const socket = new NaiveSocket({
     host,
     port,

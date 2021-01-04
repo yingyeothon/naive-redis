@@ -1,4 +1,4 @@
-import connect, { RedisConnection } from "../src/connection";
+import connect, { RedisConfig, RedisConnection } from "../src/connection";
 
 import { GenericContainer } from "testcontainers";
 
@@ -37,36 +37,30 @@ afterAll(async () => {
   await stopContainer();
 });
 
-export default function fixture(
+export function testbed(
   testName: string,
-  connectionWork: (connection: RedisConnection) => Promise<void>
+  testWork: (connection: RedisConfig) => Promise<void>
 ): void {
   test(testName + "-on-simple-container", async () => {
     const {
       simple: { host, port },
     } = await redis;
-    const connection = connect({ host, port });
-    try {
-      await connectionWork(connection);
-    } catch (error) {
-      console.error("Uncaught error", error);
-      throw error;
-    } finally {
-      // Clear all entries after test.
-      await connection.socket.send({
-        message: "FLUSHALL\r\n",
-        fulfill: "+OK\r\n".length,
-        timeoutMillis: 1000,
-      });
-      connection.socket.disconnect();
-    }
+    await testWork({ host, port });
   });
-
   test(testName + "-on-auth-container", async () => {
     const {
       auth: { host, port, password },
     } = await redis;
-    const connection = connect({ host, port, password });
+    await testWork({ host, port, password });
+  });
+}
+
+export default function fixture(
+  testName: string,
+  connectionWork: (connection: RedisConnection) => Promise<void>
+): void {
+  testbed(testName, async (config) => {
+    const connection = connect(config);
     try {
       await connectionWork(connection);
     } catch (error) {

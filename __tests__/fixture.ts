@@ -3,12 +3,14 @@ import connect, { RedisConfig, RedisConnection } from "../src/connection";
 import { GenericContainer } from "testcontainers";
 
 async function prepareRedis() {
+  jest.setTimeout(30 * 1000);
+
   const password = `1234`;
   const [simpleContainer, authContainer] = await Promise.all([
     new GenericContainer("redis").withExposedPorts(6379).start(),
     new GenericContainer("redis")
       .withExposedPorts(6379)
-      .withCmd(["redis-server", "--requirepass", password])
+      .withCommand(["redis-server", "--requirepass", password])
       .start(),
   ]);
 

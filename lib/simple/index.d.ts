@@ -13,6 +13,6 @@ export default class RedisSimple {
     });
     cache: <A extends unknown[], R>(fn: Fn<A, R>, { cacheKey, expirationMillis, }: Pick<RedisSimpleCacheOptions<A, R>, "expirationMillis" | "cacheKey">) => RedisSimpleCacheFriends<A, R>;
     get: <T>(key: string) => Promise<T | null>;
-    set: (key: string, value: unknown, expirationMillis?: number | undefined) => Promise<boolean>;
+    set: (key: string, value: unknown, expirationMillis?: number) => Promise<boolean>;
     del: (key: string) => Promise<number>;
 }

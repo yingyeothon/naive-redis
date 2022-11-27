@@ -1,6 +1,6 @@
 import { RedisConfig } from "../connection";
-export declare type Fn<Args extends unknown[], ReturnType> = (...args: Args) => Promise<ReturnType>;
-export declare type RedisSimpleCacheFriends<Args extends unknown[], ReturnType> = Fn<Args, ReturnType> & {
+export type Fn<Args extends unknown[], ReturnType> = (...args: Args) => Promise<ReturnType>;
+export type RedisSimpleCacheFriends<Args extends unknown[], ReturnType> = Fn<Args, ReturnType> & {
     refresh: Fn<Args, void>;
     clear: Fn<Args, void>;
     peek: Fn<Args, ReturnType | null>;
